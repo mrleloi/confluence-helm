@@ -92,7 +92,7 @@ spec:
               memory: "3Gi"
               cpu: "4000m"
           volumeMounts:
-            - mountPath: /var/atlassian/application-data/jira
+            - mountPath: /var/confluence
               name: confluence-vol
             - mountPath: /temp
               name: test-volume
