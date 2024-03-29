@@ -1,0 +1,33 @@
+---
+# Source: dokuwiki/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: confluence
+  labels:
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: confluence
+    app.kubernetes.io/version: 20230404.1.0
+    helm.sh/chart: confluence-14.7.2
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+spec:
+  tls:
+  - hosts:
+    - confluence.baityapp.online
+    secretName: confluence-tls
+  ingressClassName: "nginx"
+  rules:
+    - host: confluence.baityapp.online
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: confluence
+                port:
+                  name: http
